@@ -7,11 +7,13 @@
 #include <QFileDialog>
 #include <QDebug>
 
+//TODO: Add QMessageBox::critical when something will go wrong. (eg. playing the sound, initializing the engine)
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->fileView->setSelectionMode(QAbstractItemView::SingleSelection);
 
     QFileSystemModel *model = new QFileSystemModel(this);
 
@@ -41,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
     QModelIndex fileIndex = ui->fileView->currentIndex();
     QString filePath = model->filePath(fileIndex);
 
+    //TODO: Rename the object's names to more readable and consistent way
+    //TODO: When other sound is selected using scroll buttons stop current sound and play the selected one immediately  
     connect(ui->playBtn, &QPushButton::clicked, this, [this, model]{
         QModelIndex fileIndex = ui->fileView->currentIndex();
         QString mp3Path = model->filePath(fileIndex);
@@ -49,6 +53,41 @@ MainWindow::MainWindow(QWidget *parent)
             qWarning() << "Failed to play the sound!";
         };
     });
+
+
+    //TODO: If possible, shorten and simplify the code below
+    connect(ui->dwnBtn, &QPushButton::clicked, this, [this, model]{
+        QModelIndex current = ui->fileView->currentIndex();
+        qDebug() << "Current index: " << current;
+        int row = current.row();
+        QModelIndex next = model->index(row + 1, 0, current.parent());
+        if(next.isValid()){
+            ui->fileView->scrollTo(next);
+            ui->fileView->setCurrentIndex(next);
+            qDebug() << "Scrolled to " << next;
+        }
+        else{
+            qDebug() << next << " is not valid!";
+        }
+    });
+
+    connect(ui->upBtn, &QPushButton::clicked, this, [this, model]{
+        QModelIndex current = ui->fileView->currentIndex();
+        qDebug() << "Current index: " << current;
+        int row = current.row();
+        QModelIndex next = model->index(row - 1, 0, current.parent());
+        if(next.isValid()){
+            ui->fileView->scrollTo(next);
+            ui->fileView->setCurrentIndex(next);
+            qDebug() << "Scrolled to " << next;
+        }
+        else{
+            qDebug() << next << " is not valid!";
+        }
+    });
+
+    //TODO: Add functionality for stopBtn
+
     
 }
 

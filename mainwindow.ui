@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>781</width>
+      <width>741</width>
       <height>192</height>
      </rect>
     </property>
@@ -53,8 +53,8 @@
    <widget class="QPushButton" name="playBtn">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>240</y>
+      <x>10</x>
+      <y>220</y>
       <width>80</width>
       <height>26</height>
      </rect>
@@ -63,17 +63,43 @@
      <string>Play</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="stopBtn">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>240</y>
+      <x>90</x>
+      <y>220</y>
       <width>80</width>
       <height>26</height>
      </rect>
     </property>
     <property name="text">
      <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="dwnBtn">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>60</y>
+      <width>31</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>↓</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="upBtn">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>30</y>
+      <width>31</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>↑</string>
     </property>
    </widget>
   </widget>
