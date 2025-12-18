@@ -6,6 +6,7 @@
 #include <QListView>
 #include <QFileDialog>
 #include <QDebug>
+#include <QMessageBox>
 
 //TODO: Add QMessageBox::critical when something will go wrong. (eg. playing the sound, initializing the engine)
 MainWindow::MainWindow(QWidget *parent)
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
         QString pathString = QFileDialog::getExistingDirectory(this, "Select a folder", QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
         if (pathString.isEmpty()){
+            QMessageBox::information(this, "Select a folder", "No folder has been selected!");
             return;
         }
 
@@ -38,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     ma_result engineResult = ma_engine_init(&engineConfig, &engine);
     if (engineResult != MA_SUCCESS) {
         qWarning() << "Failed to initialize the audio engine.";
+        QMessageBox::critical(this, "Audio engine error!", "Failed to initialaze the audio engine!");
     }
 
     QModelIndex fileIndex = ui->fileView->currentIndex();
@@ -48,10 +51,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->playBtn, &QPushButton::clicked, this, [this, model]{
         QModelIndex fileIndex = ui->fileView->currentIndex();
         QString mp3Path = model->filePath(fileIndex);
-        ma_result playResult = ma_engine_play_sound(&engine, mp3Path.toUtf8().constData(), NULL);
-        if (playResult != MA_SUCCESS) {
-            qWarning() << "Failed to play the sound!";
-        };
+        if(mp3Path.isEmpty()){
+            qWarning() << "No sound selected! ";
+            QMessageBox::warning(this, "Sound selection", "No sound has been selected!");
+        }
+        else{
+            ma_result playResult = ma_engine_play_sound(&engine, mp3Path.toUtf8().constData(), NULL);
+            if (playResult != MA_SUCCESS) {
+                qWarning() << "Failed to play the sound!";
+                QMessageBox::critical(this, "Error", "Failed to play the sound!");
+            };
+        }
     });
 
 
