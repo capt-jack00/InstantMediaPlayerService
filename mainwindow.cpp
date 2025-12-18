@@ -8,7 +8,6 @@
 #include <QDebug>
 #include <QMessageBox>
 
-//TODO: Add QMessageBox::critical when something will go wrong. (eg. playing the sound, initializing the engine)
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
