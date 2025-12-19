@@ -42,14 +42,11 @@ MainWindow::MainWindow(QWidget *parent)
         QMessageBox::critical(this, "Audio engine error!", "Failed to initialaze the audio engine!");
     }
 
-    QModelIndex fileIndex = ui->fileView->currentIndex();
-    QString filePath = model->filePath(fileIndex);
-
     //TODO: Rename the object's names to more readable and consistent way
     //TODO: When other sound is selected using scroll buttons stop current sound and play the selected one immediately  
     connect(ui->playBtn, &QPushButton::clicked, this, [this, model]{
-        QModelIndex fileIndex = ui->fileView->currentIndex();
-        QString mp3Path = model->filePath(fileIndex);
+        QModelIndex fileViewIndex = ui->fileView->currentIndex();
+        QString mp3Path = model->filePath(fileViewIndex);
         if(mp3Path.isEmpty()){
             qWarning() << "No sound selected! ";
             QMessageBox::warning(this, "Sound selection", "No sound has been selected!");
@@ -61,6 +58,14 @@ MainWindow::MainWindow(QWidget *parent)
                 QMessageBox::critical(this, "Error", "Failed to play the sound!");
             };
         }
+    });
+
+    connect(ui->stopBtn, &QPushButton::clicked, this, [this]{
+        ma_device_stop(engine.pDevice);
+    });
+
+    connect(ui->resumeBtn, &QPushButton::clicked, this, [this]{
+        ma_device_start(engine.pDevice);
     });
 
 
@@ -94,10 +99,6 @@ MainWindow::MainWindow(QWidget *parent)
             qDebug() << next << " is not valid!";
         }
     });
-
-    //TODO: Add functionality for stopBtn
-
-    
 }
 
 MainWindow::~MainWindow()

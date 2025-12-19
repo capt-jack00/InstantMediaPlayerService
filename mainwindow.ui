@@ -47,7 +47,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>pathLabel</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="playBtn">
@@ -100,6 +100,19 @@
     </property>
     <property name="text">
      <string>↑</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="resumeBtn">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>220</y>
+      <width>80</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Resume</string>
     </property>
    </widget>
   </widget>
