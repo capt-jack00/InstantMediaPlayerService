@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QString>
 #include "miniaudio/miniaudio.h"
 
 QT_BEGIN_NAMESPACE
@@ -20,4 +21,6 @@ public:
 private:
     Ui::MainWindow *ui;
     ma_engine engine;
+    ma_sound sound;
+    QString currentAudio;
 };
